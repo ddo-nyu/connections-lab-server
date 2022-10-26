@@ -1,2 +1,26 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>Submit a chirp</h1>
+<form action="/add" method="post" role="form" enctype="application/x-www-form-urlencoded">
+    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="chirp" placeholder="Chirp">
+    <button type="submit">Submit</button>
+</form>
+
+<h1>Chirps</h1>
+<table>
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Chirp</td>
+        <td>Date</td>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each rows}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.chirp}}</td>
+            <td>{{this.date}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

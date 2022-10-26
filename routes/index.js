@@ -5,7 +5,16 @@ var db = new neDB({ filename: 'my.db', autoload: true });
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  db.find({}, function (err, docs) {
+    if (err) {
+      res.sendStatus(400).send(err);
+    } else {
+      res.render('index', {
+        rows: docs
+      });
+    }
+  });
+
 });
 
 router.get('/all', function(req, res){
@@ -19,14 +28,15 @@ router.get('/all', function(req, res){
 });
 
 router.post('/add', function (req, res) {
-  var data = [ { name: 'John', score: '48' },
-    { name: 'Henry', score: '19' },
-    { name: 'Albert', score: '15' } ];
-  db.insert(data, function (err, newDocs) {
+  const entry = {
+    ...req.body,
+    date: new Date().toLocaleString(),
+  };
+  db.insert([entry], function (err, newDocs) {
     if (err) {
       res.sendStatus(400).send(err);
     } else {
-      res.send('Success!');
+      res.redirect('/');
     }
   });
 });
